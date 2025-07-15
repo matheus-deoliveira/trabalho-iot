@@ -34,7 +34,7 @@ public class OpenWeatherConverter {
             data.setHumidity(0);     // Default value
             data.setPressure(0);     // Default value
         }
-        data.setWindSpeed(response.getWind().getSpeed());
+        data.setWindSpeed(response.getWind() != null ? response.getWind().getSpeed() : 0.0);
         data.setCloudiness(response.getClouds().getAll());
 
         // Alertas (convertendo lista para JSON)
