@@ -25,9 +25,15 @@ public class OpenWeatherConverter {
         data.setSunset(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getSys().getSunset()), ZoneOffset.UTC));
 
         // Dados meteorológicos
-        data.setTemperature(response.getMain().getTemp());
-        data.setHumidity(response.getMain().getHumidity());
-        data.setPressure(response.getMain().getPressure());
+        if (response.getMain() != null) {
+            data.setTemperature(response.getMain().getTemp());
+            data.setHumidity(response.getMain().getHumidity());
+            data.setPressure(response.getMain().getPressure());
+        } else {
+            data.setTemperature(0.0); // Default value
+            data.setHumidity(0);     // Default value
+            data.setPressure(0);     // Default value
+        }
         data.setWindSpeed(response.getWind().getSpeed());
         data.setCloudiness(response.getClouds().getAll());
 
