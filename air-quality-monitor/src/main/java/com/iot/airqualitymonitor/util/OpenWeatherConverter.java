@@ -20,9 +20,9 @@ public class OpenWeatherConverter {
         data.setTimezoneOffset(response.getTimezone_offset());
 
         // Timestamps (convertendo Unix para LocalDateTime)
-        data.setTimestamp(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getDt()), ZoneId.systemDefault()));
-        data.setSunrise(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getSys().getSunrise()), ZoneId.systemDefault()));
-        data.setSunset(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getSys().getSunset()), ZoneId.systemDefault()));
+        data.setTimestamp(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getDt()), ZoneOffset.UTC));
+        data.setSunrise(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getSys().getSunrise()), ZoneOffset.UTC));
+        data.setSunset(LocalDateTime.ofInstant(Instant.ofEpochSecond(response.getSys().getSunset()), ZoneOffset.UTC));
 
         // Dados meteorológicos
         data.setTemperature(response.getMain().getTemp());
