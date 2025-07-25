@@ -5,6 +5,7 @@ import com.iot.airqualitymonitor.model.AirQualityData;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.stream.Collectors;
 
 public class OpenWeatherConverter {
@@ -31,8 +32,8 @@ public class OpenWeatherConverter {
             data.setPressure(response.getMain().getPressure());
         } else {
             data.setTemperature(0.0); // Default value
-            data.setHumidity(0);     // Default value
-            data.setPressure(0);     // Default value
+            data.setHumidity(0.0);     // Default value
+            data.setPressure(0.0);     // Default value
         }
         data.setWindSpeed(response.getWind() != null ? response.getWind().getSpeed() : 0.0);
         data.setCloudiness(response.getClouds().getAll());
