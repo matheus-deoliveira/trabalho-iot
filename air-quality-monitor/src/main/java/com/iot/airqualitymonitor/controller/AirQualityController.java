@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AirQualityController {
 
-    @Autowired
-    private AirQualityService airQualityService;
+    private final AirQualityService airQualityService;
 
+    public AirQualityController(AirQualityService airQualityService) {
+        this.airQualityService = airQualityService;
+    }
     @GetMapping("/api/openweather/airquality")
     public AirPollutionResponse getOpenWeatherAirQuality(@RequestParam double lat, @RequestParam double lon) {
         return airQualityService.getOpenWeatherAirQuality(lat, lon);
