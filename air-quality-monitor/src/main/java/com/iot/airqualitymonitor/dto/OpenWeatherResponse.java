@@ -1,5 +1,6 @@
 package com.iot.airqualitymonitor.dto;
 
+import com.iot.airqualitymonitor.model.AirQualityAlert;
 import lombok.Data;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class OpenWeatherResponse {
     private long dt;
     private String timezone;
     private int timezone_offset;
-    private List<Alert> alerts;
+    private List<AirQualityAlert> alerts;
 
     @Data
     public static class Coord {
