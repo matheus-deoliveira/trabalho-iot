@@ -74,7 +74,6 @@ public class AirQualityData {
 
     // Método de negócio
     public void updateAqi() {
-        this.aqi = AqiCalculator.calculate(this.pm25, this.co, this.o3);
-        this.aqiCategory = AqiCategory.fromAqi(this.aqi);
+        calculateAndUpdateAqi();
     }
 }
