@@ -68,6 +68,7 @@ public class AirQualityData {
             alert.setType(AlertType.AQI_HIGH.name());
             alert.setMessage("Qualidade do ar insalubre: " + aqiCategory.getDescription());
             alert.setTriggeredAt(LocalDateTime.now());
+            alert.setAirQualityData(this);
             this.alerts.add(alert);
         }
     }
