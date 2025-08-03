@@ -65,7 +65,7 @@ public class AirQualityData {
     private void checkAlerts() {
         if (this.aqi >= 150) {
             AirQualityAlert alert = new AirQualityAlert();
-            alert.setType("AQI_HIGH");
+            alert.setType(AlertType.AQI_HIGH.name());
             alert.setMessage("Qualidade do ar insalubre: " + aqiCategory.getDescription());
             alert.setTriggeredAt(LocalDateTime.now());
             this.alerts.add(alert);
