@@ -1,16 +1,20 @@
 package com.iot.airqualitymonitor.model;
 
+import com.iot.airqualitymonitor.model.enums.AqiCategory;
+import com.iot.airqualitymonitor.util.AqiCalculator;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class AirQualityData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,25 +27,54 @@ public class AirQualityData {
     private String timezone;
     private Integer timezoneOffset;
 
-    // Dados principais de qualidade do ar
-    private Double pm25;      // Partículas finas (será extraído de 'current.air_pollution' em outra API)
-    private Double co;        // Monóxido de Carbono (em µg/m³)
-    private Double o3;        // Ozônio (em µg/m³)
-    private Integer aqi;      // Índice de Qualidade do Ar (1-5)
+    // Poluentes
+    @Min(0) private Double pm25;  // µg/m³
+    @Min(0) private Double co;    // µg/m³
+    @Min(0) private Double o3;    // µg/m³
+    private Double no2;    // Dióxido de Nitrogênio (µg/m³)
+    private Double so2;    // Dióxido de Enxofre (µg/m³)
 
-    // Dados meteorológicos complementares
-    private Double temperature;
-    private Double humidity;
-    private Double pressure;
-    private Double windSpeed;
-    private Integer cloudiness;
+    // AQI
+    @Column(name = "aqi_index")
+    @Min(0) @Max(500)
+    private Integer aqi;
+
+    @Enumerated(EnumType.STRING)
+    private AqiCategory aqiCategory;
+
+    // Meteorologia
+    private Double temperature;  // °C
+    private Double humidity;     // %
+    private Double windSpeed;    // m/s
+    private Double pressure;    // hPa
 
     // Timestamps
     private LocalDateTime timestamp;
     private LocalDateTime sunrise;
     private LocalDateTime sunset;
 
-    // Alertas (armazenados como JSON ou texto)
-    @Column(columnDefinition = "TEXT")
-    private String alerts;
+    @OneToMany(mappedBy = "airQualityData", cascade = CascadeType.ALL)
+    private List<AirQualityAlert> alerts = new ArrayList<>();
+
+    public void calculateAndUpdateAqi() {
+        this.aqi = AqiCalculator.calculate(this.pm25, this.co, this.o3);
+        this.aqiCategory = AqiCategory.fromAqi(this.aqi);
+        checkAlerts();
+    }
+
+    private void checkAlerts() {
+        if (this.aqi >= 150) {
+            AirQualityAlert alert = new AirQualityAlert();
+            alert.setType(AlertType.AQI_HIGH.name());
+            alert.setMessage("Qualidade do ar insalubre: " + aqiCategory.getDescription());
+            alert.setTriggeredAt(LocalDateTime.now());
+            alert.setAirQualityData(this);
+            this.alerts.add(alert);
+        }
+    }
+
+    // Método de negócio
+    public void updateAqi() {
+        calculateAndUpdateAqi();
+    }
 }

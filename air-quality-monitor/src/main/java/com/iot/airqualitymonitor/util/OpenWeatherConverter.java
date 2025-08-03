@@ -36,25 +36,19 @@ public class OpenWeatherConverter {
             data.setPressure(0.0);     // Default value
         }
         data.setWindSpeed(response.getWind() != null ? response.getWind().getSpeed() : 0.0);
-        data.setCloudiness(response.getClouds().getAll());
 
         // Alertas (convertendo lista para JSON)
         if (response.getAlerts() != null) {
             String alertsJson = response.getAlerts().stream()
                     .map(alert -> String.format(
-                            "{\"event\":\"%s\",\"description\":\"%s\",\"from\":%d,\"to\":%d}",
-                            alert.getEvent(),
-                            alert.getDescription(),
-                            alert.getStart(),
-                            alert.getEnd()
+                            "{\"type\":\"%s\",\"message\":\"%s\",\"triggeredAt\":%s}",
+                            alert.getType(),
+                            alert.getMessage(),
+                            alert.getTriggeredAt()
                     ))
                     .collect(Collectors.joining(", ", "[", "]"));
-            data.setAlerts(alertsJson);
+            data.setAlerts(response.getAlerts());
         }
-
-        // NOTA: PM2.5, CO, O3 e AQI não vêm nesta API básica!
-        // Você precisará usar a API de poluição do ar separadamente:
-        // https://openweathermap.org/api/air-pollution
 
         return data;
     }
