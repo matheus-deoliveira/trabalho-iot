@@ -71,7 +71,7 @@ public class AirQualityService {
             String payload = objectMapper.writeValueAsString(payloadMap);
 
             // Log para depuração
-            System.out.println("Payload enviado ao ThingsBoard: " + payload);
+            logger.info("Payload enviado ao ThingsBoard: {}", payload);
 
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
