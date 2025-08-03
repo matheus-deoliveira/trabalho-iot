@@ -23,7 +23,9 @@ public class AqiCalculator {
 
     private static int calculateCoAqi(double concentration) {
         // CO em ppm (partes por milhão)
-        double ppm = concentration / 1000; // Convertendo µg/m³ para ppm
+        // Conversão correta de µg/m³ para ppm para CO: ppm = (µg/m³ × 0.0409) / 28.01
+        final double CO_MOLECULAR_WEIGHT = 28.01; // g/mol
+        double ppm = (concentration * 0.0409) / CO_MOLECULAR_WEIGHT;
         return calculateSubIndex(
                 ppm,
                 new double[]{0, 4.4, 9.4, 12.4, 15.4, 30.4, 40.4, 50.4},
