@@ -50,8 +50,12 @@ public class AirQualityService {
 
             if (response != null) {
                 AirQualityData airData = convertToAirQualityData(response, lat, lon);
-                airData.calculateAndUpdateAqi(); // Calcula AQI e categoria
-                sendEnhancedAirQualityData(airData);
+                if (airData != null) {
+                    airData.calculateAndUpdateAqi(); // Calcula AQI e categoria
+                    sendEnhancedAirQualityData(airData);
+                } else {
+                    logger.warn("Falha ao converter resposta em AirQualityData - dados inválidos ou incompletos.");
+                }
             }
 
             return response;
