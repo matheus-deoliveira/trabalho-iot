@@ -89,6 +89,10 @@ public class AirQualityService {
     }
 
     private AirQualityData convertToAirQualityData(AirPollutionResponse response, double lat, double lon) {
+        if (response == null || response.getList() == null || response.getList().isEmpty()) {
+            System.err.println("AirPollutionResponse list is null or empty - cannot convert to AirQualityData");
+            return null;
+        }
         AirQualityData data = new AirQualityData();
         data.setPm25(response.getList().get(0).getComponents().getPm2_5());
         data.setCo(response.getList().get(0).getComponents().getCo());
