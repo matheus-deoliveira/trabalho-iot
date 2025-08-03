@@ -54,7 +54,7 @@ public class AirQualityService {
     private void sendToThingsBoard(AirQualityData data) {
         if (data.getPm25() == null || data.getCo() == null ||
                 data.getO3() == null || data.getAqi() == null) {
-            System.err.println("Dados incompletos - não enviando ao ThingsBoard");
+            logger.warn("Dados incompletos - não enviando ao ThingsBoard");
             return;
         }
 
