@@ -1,6 +1,7 @@
 package com.iot.airqualitymonitor.controller;
 
 import com.iot.airqualitymonitor.dto.AirPollutionResponse;
+import com.iot.airqualitymonitor.model.AirQualityData;
 import com.iot.airqualitymonitor.service.AirQualityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
