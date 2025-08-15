@@ -33,6 +33,7 @@ public class AirQualityData {
     @Min(0) private Double o3;    // µg/m³
     private Double no2;    // Dióxido de Nitrogênio (µg/m³)
     private Double so2;    // Dióxido de Enxofre (µg/m³)
+    private Double pm10;   // Material Particulado (µg/m³)
 
     // AQI
     @Column(name = "aqi_index")
@@ -65,7 +66,7 @@ public class AirQualityData {
     private void checkAlerts() {
         if (this.aqi >= 150) {
             AirQualityAlert alert = new AirQualityAlert();
-            alert.setType(AlertType.AQI_HIGH.name());
+            alert.setType("AQI_HIGH");
             alert.setMessage("Qualidade do ar insalubre: " + aqiCategory.getDescription());
             alert.setTriggeredAt(LocalDateTime.now());
             alert.setAirQualityData(this);
