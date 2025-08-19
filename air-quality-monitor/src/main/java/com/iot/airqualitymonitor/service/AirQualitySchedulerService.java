@@ -11,8 +11,8 @@ public class AirQualitySchedulerService {
     private AirQualityService airQualityService;
 
     // Coordenadas fixas
-    private final double latitude = 39.9042;
-    private final double longitude = 116.4074;
+    private final double latitude = -20.3194;
+    private final double longitude = -40.3378;
 
     @Scheduled(fixedRate = 30000)
     public void scheduleAirQualityUpdate() {
