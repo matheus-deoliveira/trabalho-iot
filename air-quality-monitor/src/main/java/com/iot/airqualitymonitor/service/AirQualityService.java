@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@EnableScheduling
 public class AirQualityService {
 
     private static final Logger logger = LoggerFactory.getLogger(AirQualityService.class);
@@ -108,6 +110,7 @@ public class AirQualityService {
         payload.put("o3", data.getO3());
         payload.put("no2", data.getNo2());
         payload.put("so2", data.getSo2());
+        payload.put("pm10", data.getPm10());
 
         // Informações consolidadas
         payload.put("aqi", data.getAqi());
@@ -156,6 +159,7 @@ public class AirQualityService {
             data.setNo2(response.getList().get(0).getComponents().getNo2());
             data.setSo2(response.getList().get(0).getComponents().getSo2());
             data.setAqi(response.getList().get(0).getMain().getAqi());
+            data.setPm10(response.getList().get(0).getComponents().getPm10());
         }
 
         data.setLatitude(lat);
