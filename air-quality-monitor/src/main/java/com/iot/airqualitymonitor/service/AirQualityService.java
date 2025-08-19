@@ -175,7 +175,7 @@ public class AirQualityService {
             statusLine = String.format("*Status: %s (Atualizado)* %s", newCategory.getDescription(), statusEmoji);
         }
 
-        String mapUrl = String.format(Locale.US, "http://googleusercontent.com/maps.google.com/8", newData.getLatitude(), newData.getLongitude());
+        String mapUrl = String.format(Locale.US, "https://www.google.com/maps/search/?api=1&query=%f,%f", newData.getLatitude(), newData.getLongitude());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("'de' dd/MM/yyyy 'às' HH:mm");
         String formattedTimestamp = newData.getTimestamp().format(formatter);
 
